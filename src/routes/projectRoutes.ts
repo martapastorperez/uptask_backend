@@ -26,5 +26,10 @@ router.put('/:id',
     body('description').notEmpty().withMessage('La descripcion del proyecto es obligatorio'),
     handleInputErrors,
     ProjectController.updateProject)   
+    
+router.delete('/:id',
+    param('id').isMongoId().withMessage('ID no valido'),
+    handleInputErrors,
+    ProjectController.deleteProject)
 
 export default router
