@@ -13,6 +13,7 @@ router.post('/',
     body('description').notEmpty().withMessage('La descripcion del proyecto es obligatorio'),
     handleInputErrors,
     ProjectController.createProject)
+
 router.get('/',ProjectController.getAllProjects)
 
 router.get('/:id',
@@ -42,6 +43,11 @@ router.post('/:projectId/task',
     body('name').notEmpty().withMessage('El nombre de la tarea es obligatoria'),
     body('description').notEmpty().withMessage('La descripcion de la tarea es obligatorio'),
     TaskController.createTask
+)
+
+router.get('/:projectId/task',
+    validateProjectExist,
+    TaskController.getAllTask
 )
 
 export default router
