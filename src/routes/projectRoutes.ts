@@ -50,4 +50,9 @@ router.get('/:projectId/task',
     TaskController.getAllTask
 )
 
+router.get('/:projectId/task/:taskId',
+    validateProjectExist,
+    TaskController.getTaskById
+)
+
 export default router
