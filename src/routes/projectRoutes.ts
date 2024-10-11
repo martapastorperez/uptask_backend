@@ -38,21 +38,31 @@ router.delete('/:id',
 
 
     //ROuter for Task
+
+router.param('projectId',validateProjectExist)
+
 router.post('/:projectId/task',
-    validateProjectExist,
     body('name').notEmpty().withMessage('El nombre de la tarea es obligatoria'),
     body('description').notEmpty().withMessage('La descripcion de la tarea es obligatorio'),
     TaskController.createTask
 )
 
 router.get('/:projectId/task',
-    validateProjectExist,
     TaskController.getAllTask
 )
 
 router.get('/:projectId/task/:taskId',
-    validateProjectExist,
+    param('taskId').isMongoId().withMessage('ID no valido'),
+    handleInputErrors,
     TaskController.getTaskById
+)
+
+router.put('/:projectId/task/:taskId',
+    param('taskId').isMongoId().withMessage('ID no valido'),
+    body('name').notEmpty().withMessage('El nombre de la tarea es obligatoria'),
+    body('description').notEmpty().withMessage('La descripcion de la tarea es obligatorio'),
+    handleInputErrors,
+    TaskController.updateTask
 )
 
 export default router
