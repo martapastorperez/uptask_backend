@@ -3,6 +3,7 @@ import Auth from "../models/Auth";
 import { hashPassword } from "../utils/auth";
 import Token from "../models/Token";
 import { generateToken } from "../utils/token";
+import { AuthEmail } from "../emails/AuthEmails";
 
 export class AuthController{
     static createUser=async(req:Request, res:Response)=>{
@@ -17,11 +18,17 @@ export class AuthController{
             }
             const user=new Auth(req.body)
             user.password= await hashPassword(password)
-            
+
             const token= new Token()
             token.token=generateToken()
             token.user=user.id
     
+            //ENVIAR EMAIL
+           AuthEmail.sendConfirmationEmail({
+            email:user.email,
+            name:user.email,
+            token:token.token
+           })
             await Promise.allSettled([user.save(), token.save()])
             res.send('Usuario creado correctamente, revisa tu email para confirmarlo')
          } catch (error) {
