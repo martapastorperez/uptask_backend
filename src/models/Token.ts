@@ -14,7 +14,7 @@ const TokenSchema:Schema= new Schema({
     },
     user:{
         type:Types.ObjectId,
-        ref:'User'
+        ref:'Auth'
     },
     createdAt:{
         type:Date,
