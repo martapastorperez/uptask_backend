@@ -8,7 +8,8 @@ export interface IProject extends Document {
     clientName:string
     description:string
     tasks:PopulatedDoc<ITask & Document>[],
-    manager:PopulatedDoc<IAuth & Document>
+    manager:PopulatedDoc<IAuth & Document>,
+    team:PopulatedDoc<IAuth & Document>[]
 }
 
 const ProjectSchema: Schema= new Schema({
@@ -36,7 +37,13 @@ const ProjectSchema: Schema= new Schema({
     manager:{
         type:Types.ObjectId,
         ref:'Auth'
-    }
+    },
+    team:[
+        {
+            type:Types.ObjectId,
+            ref:'Auth'
+        }
+    ],
 },{timestamps:true})
 
 const Project=mongoose.model<IProject >('Project', ProjectSchema)
