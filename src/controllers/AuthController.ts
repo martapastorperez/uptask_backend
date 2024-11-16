@@ -210,4 +210,10 @@ static updatePasswordWithToken=async(req:Request, res:Response)=>{
         console.log(error);
     }
 }
+
+static user=async(req:Request, res:Response)=>{
+    res.json(req.user)
+    return
+}
+
 }
