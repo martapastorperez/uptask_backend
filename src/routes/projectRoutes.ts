@@ -123,5 +123,11 @@ router.post('/:projectId/task/:taskId/notes',
     NoteController.createNote
 )
 
+router.get('/:projectId/task/:taskId/notes',
+    hasAuthorization,
+    handleInputErrors,
+    NoteController.getTaskNote
+)
+
 
 export default router
