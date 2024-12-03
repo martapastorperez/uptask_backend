@@ -236,4 +236,28 @@ static updateProfile=async(req:Request, res:Response)=>{
     }
 }
 
+
+static updatePassword=async(req:Request, res:Response)=>{
+    const {current_password,password,password_confirmation}=req.body
+
+    const user=await Auth.findById(req.user.id)
+
+    const isPasswordCorrect=await checkPassword(current_password, user.password)
+    if(!isPasswordCorrect){
+        const error = new Error('El password actual es incorrecto')
+        res.status(409).json({error:error.message})
+        return
+    }
+    
+    try {
+        user.password=await hashPassword(password)
+        await user.save()
+        res.send('El password se modifico correctamente')
+        
+    } catch (error) {
+        res.status(500).json({error:"Hubo un error"})
+        console.log(error);
+    }
+}
+
 }

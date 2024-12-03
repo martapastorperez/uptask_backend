@@ -82,4 +82,18 @@ router.put('/profile',
     AuthController.updateProfile
 )
 
+router.post('/update-password',
+    authenticate,
+    body('current_password').notEmpty().withMessage('El nombre de usuario es obligatorio'),
+    body('password').isLength({min:8}).withMessage('El password es muy corto, minimo 8 caracteres').notEmpty().withMessage('El password es obligatorio'),
+    body('password_confirmation').custom((value,{req})=>{
+        if (value!==req.body.password) {
+           throw new Error('Los password no son iguales')
+        }
+        return true
+    }),
+    handleInputErrors,
+    AuthController.updatePassword
+)
+
 export default router
