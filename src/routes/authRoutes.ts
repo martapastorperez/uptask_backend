@@ -73,4 +73,13 @@ router.get('/user',
 )
 
 
+/** Profile */
+router.put('/profile',
+    authenticate,
+    body('email').isEmail().notEmpty().withMessage('El email es obligatorio'),
+    body('name').notEmpty().withMessage('El nombre de usuario es obligatorio'),
+    handleInputErrors,
+    AuthController.updateProfile
+)
+
 export default router

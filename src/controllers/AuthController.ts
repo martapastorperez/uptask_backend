@@ -216,4 +216,24 @@ static user=async(req:Request, res:Response)=>{
     return
 }
 
+static updateProfile=async(req:Request, res:Response)=>{
+    const {name,email}=req.body
+    const userExist=await Auth.findOne({email})
+    if(userExist && userExist.id.toString() !== req.user.id.toString()){
+        const error = new Error('Ese email ya esta registrado')
+        res.status(409).json({error:error.message})
+        return
+    }
+    req.user.name=name
+    req.user.email=email
+    try {
+       await req.user.save()
+       res.send('Perfil actualizado correactamente')
+        
+    } catch (error) {
+        res.status(500).json({error:"Hubo un error"})
+        console.log(error);
+    }
+}
+
 }
