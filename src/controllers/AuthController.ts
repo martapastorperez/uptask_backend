@@ -260,4 +260,22 @@ static updatePassword=async(req:Request, res:Response)=>{
     }
 }
 
+static checkPassword=async(req:Request, res:Response)=>{
+    const {password}=req.body
+
+    const user=await Auth.findById(req.user.id)
+
+    const isPasswordCorrect=await checkPassword(password, user.password)
+    if(!isPasswordCorrect){
+        const error = new Error('El password es incorrecto')
+        res.status(409).json({error:error.message})
+        return
+    }
+    
+
+        res.send('El password es correcto')
+        
 }
+}
+
+
